@@ -25,6 +25,27 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to load Inter and Playfair Display.
 
+## Supabase setup
+
+Authentication is being built in stages; the clients are configured, but the
+authentication pages, callback and session-refresh proxy are not implemented yet.
+
+1. Create a Supabase project and enable the email provider under Authentication.
+   Enable email confirmation if users should verify their address.
+2. Under Authentication > URL Configuration, set the Site URL to
+   `http://localhost:3000` for local development and add
+   `http://localhost:3000/auth/callback` to the redirect URL allowlist. Add the
+   corresponding HTTPS site and callback URLs for production.
+3. Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SUPABASE_URL` to
+   the project URL and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to its public anon (or
+   publishable) key from the project's API settings. Never put a secret or
+   service-role key in these public variables. Restart the Next.js server after
+   changing environment variables.
+
+The server client uses Next.js cookies. Cookie writes are only permitted in
+route handlers or server actions; session refresh for Server Components will be
+handled by the proxy in the route-protection stage.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
